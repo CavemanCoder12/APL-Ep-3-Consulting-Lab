@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE ENGAGEMENT — Consulting Cohort, BITS Pilani MBA</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --navy: #0d1b2a;
+    --gold: #b8953a;
+    --gold-light: #d4af5a;
+    --gold-pale: rgba(184,149,58,0.12);
+    --red: #8b1a1a;
+    --teal: #1a4a4a;
+    --text-primary: #1a1a2e;
+    --text-muted: #5a5a6a;
+    --border: rgba(184,149,58,0.25);
+    --white: #faf8f4;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── TOPBAR ─────────────────────────────────────── */
+  #topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(250,248,244,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(-100%);
+    transition: transform 0.4s ease;
+  }
+  #topbar.visible { transform: translateY(0); }
+  .topbar-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--navy);
+    text-transform: uppercase;
+  }
+  .topbar-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── HERO ────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(184,149,58,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,149,58,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(184,149,58,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-kicker {
+    position: relative;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: riseIn 0.9s 0.3s forwards;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-kicker::before, .hero-kicker::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .hero-title {
+    position: relative;
+    z-index: 2;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 10vw, 140px);
+    font-weight: 700;
+    line-height: 0.9;
+    color: var(--paper);
+    letter-spacing: -2px;
+    opacity: 0;
+    animation: riseIn 0.9s 0.5s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+    display: block;
+    font-weight: 300;
+    font-size: 0.75em;
+    letter-spacing: 4px;
+    margin-top: 8px;
+  }
+
+  .hero-descriptor {
+    position: relative;
+    z-index: 2;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(14px, 2vw, 17px);
+    color: rgba(245,240,232,0.55);
+    max-width: 580px;
+    line-height: 1.8;
+    margin-top: 36px;
+    font-weight: 300;
+    opacity: 0;
+    animation: riseIn 0.9s 0.7s forwards;
+  }
+
+  .hero-chips {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 12px;
+    margin-top: 44px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: riseIn 0.9s 0.9s forwards;
+  }
+  .chip {
+    border: 1px solid rgba(184,149,58,0.4);
+    background: rgba(184,149,58,0.08);
+    padding: 9px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    border-radius: 1px;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: rgba(245,240,232,0.3);
+    text-align: center;
+    opacity: 0;
+    animation: riseIn 0.9s 1.3s forwards;
+  }
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    margin: 10px auto 0;
+    animation: lineDown 2s 2s infinite;
+  }
+
+  /* ── UTILITY ─────────────────────────────────────── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0 40px;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── SECTION SHELL ───────────────────────────────── */
+  .section {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 72px 32px;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 80px;
+  }
+
+  .section-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 600;
+    line-height: 1.05;
+    margin-bottom: 36px;
+    color: var(--navy);
+  }
+  .section-headline em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 300;
+  }
+
+  /* ── SCAN LAYER — bold takeaway line per section ─── */
+  .scan-takeaway {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    border-left: 3px solid var(--gold);
+    padding: 10px 18px;
+    margin-bottom: 32px;
+    background: rgba(184,149,58,0.05);
+    line-height: 1.5;
+  }
+
+  /* ── CALLOUT BOX ─────────────────────────────────── */
+  .callout {
+    border: 1px solid var(--gold);
+    background: var(--navy);
+    padding: 28px 36px;
+    margin: 40px 0;
+    position: relative;
+  }
+  .callout::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -11px;
+    left: 28px;
+    background: var(--navy);
+    padding: 0 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+  }
+  .callout p {
+    font-size: 15px;
+    color: var(--paper);
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+  .callout p strong {
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  /* ── CONCEPT MANIFESTO ────────────────────────────── */
+  .manifesto {
+    background: var(--navy);
+    padding: 56px 0;
+  }
+  .manifesto-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 32px;
+    text-align: center;
+  }
+  .manifesto-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 4vw, 38px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--paper);
+    line-height: 1.5;
+    margin-bottom: 32px;
+  }
+  .manifesto-quote strong {
+    font-weight: 600;
+    color: var(--gold-light);
+    font-style: normal;
+  }
+  .manifesto-attr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: rgba(245,240,232,0.35);
+    text-transform: uppercase;
+  }
+
+  /* ── PREMISE BOX ─────────────────────────────────── */
+  .premise-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 680px) { .premise-grid { grid-template-columns: 1fr; } }
+  .premise-cell {
+    background: var(--white);
+    padding: 36px 32px;
+    transition: background 0.3s;
+  }
+  .premise-cell:hover { background: var(--cream); }
+  .premise-cell-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .premise-cell-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.1;
+  }
+  .premise-cell-value small {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 300;
+    display: block;
+    margin-top: 6px;
+    font-style: normal;
+  }
+
+  /* ── EDGE TABLE ──────────────────────────────────── */
+  .edge-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 60px;
+  }
+  .edge-table thead tr {
+    border-bottom: 2px solid var(--navy);
+  }
+  .edge-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    text-align: left;
+    color: var(--text-muted);
+  }
+  .edge-table th:last-child { color: var(--gold); }
+  .edge-table td {
+    padding: 16px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(184,149,58,0.12);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .edge-table tr:hover td { background: var(--cream); }
+  .edge-table td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    width: 24%;
+  }
+  .edge-table td.win {
+    color: var(--teal);
+    font-weight: 500;
+  }
+  .edge-tag {
+    display: inline-block;
+    background: rgba(26,74,74,0.1);
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    border-radius: 1px;
+    margin-top: 4px;
+  }
+
+  /* ── PHASES ──────────────────────────────────────── */
+  .phases-wrapper {
+    position: relative;
+  }
+  .phases-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 52px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), rgba(184,149,58,0.1));
+  }
+
+  .phase-block {
+    display: grid;
+    grid-template-columns: 104px 1fr;
+    gap: 0 32px;
+    margin-bottom: 4px;
+  }
+
+  .phase-meta {
+    text-align: right;
+    padding: 36px 0 36px;
+    position: relative;
+  }
+  .phase-meta::after {
+    content: '';
+    position: absolute;
+    right: -16px;
+    top: 44px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--gold);
+    z-index: 2;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .phase-block:hover .phase-meta::after {
+    background: var(--gold);
+    transform: scale(1.3);
+  }
+
+  .phase-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .phase-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .phase-card {
+    background: var(--white);
+    border: 1px solid rgba(184,149,58,0.18);
+    padding: 32px 36px;
+    margin: 16px 0;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--gold);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
+  }
+  .phase-card:hover::before, .phase-card.open::before { transform: scaleY(1); }
+  .phase-card:hover { border-color: var(--gold); box-shadow: 0 4px 32px rgba(184,149,58,0.08); }
+  .phase-card.open { border-color: var(--gold); box-shadow: 0 8px 40px rgba(184,149,58,0.12); }
+
+  .phase-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .phase-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .phase-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .phase-summary {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .phase-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  .phase-toggle::after {
+    content: '↓';
+    transition: transform 0.3s;
+  }
+  .phase-card.open .phase-toggle::after { transform: rotate(180deg); }
+
+  .phase-body {
+    display: none;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .phase-card.open .phase-body { display: block; }
+
+  .phase-body ul {
+    list-style: none;
+    margin-bottom: 24px;
+  }
+  .phase-body ul li {
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.8;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .phase-body ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+  .phase-body ul li strong { font-weight: 500; color: var(--navy); }
+
+  .highlight-box {
+    background: linear-gradient(135deg, var(--navy) 0%, #1a2e45 100%);
+    padding: 24px 28px;
+    margin-top: 20px;
+  }
+  .highlight-box-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .highlight-box p {
+    font-size: 14px;
+    color: var(--paper);
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+  .highlight-box p strong {
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  .skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .skill-pill {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 5px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--teal);
+    text-transform: uppercase;
+    border-radius: 1px;
+  }
+
+  /* ── THE TWIST ───────────────────────────────────── */
+  .twist-section {
+    background: var(--cream);
+    padding: 64px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .twist-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .twist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 800px) { .twist-grid { grid-template-columns: 1fr; } }
+  .twist-card {
+    background: var(--white);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .twist-card:hover { background: #fefcf6; }
+  .twist-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+  .twist-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 700;
+    color: rgba(184,149,58,0.12);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .twist-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  .twist-card-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+  .twist-card-body strong {
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  /* ── SCORING ─────────────────────────────────────── */
+  .score-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(184,149,58,0.12);
+  }
+  .score-row:last-child { border-bottom: none; }
+  .score-phase-name {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--navy);
+  }
+  .score-phase-name span {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .score-bar-track {
+    width: 200px;
+    height: 3px;
+    background: var(--cream);
+    position: relative;
+  }
+  @media (max-width: 600px) { .score-bar-track { width: 80px; } }
+  .score-bar-fill {
+    position: absolute;
+    left: 0; top: 0; height: 100%;
+    background: var(--gold);
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .score-pts {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--navy);
+    min-width: 60px;
+    text-align: right;
+    line-height: 1;
+  }
+  .score-pts span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  .total-box {
+    background: var(--navy);
+    padding: 32px 40px;
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .total-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: rgba(245,240,232,0.4);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .total-score {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .total-score span {
+    font-size: 24px;
+    color: var(--gold-light);
+    font-weight: 300;
+    margin-left: 8px;
+  }
+  .total-note {
+    font-size: 13px;
+    color: rgba(245,240,232,0.45);
+    max-width: 360px;
+    line-height: 1.7;
+  }
+
+  /* ── PREP CHECKLIST ──────────────────────────────── */
+  .checklist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 620px) { .checklist { grid-template-columns: 1fr; } }
+  .check-item {
+    background: var(--white);
+    padding: 28px 28px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: background 0.3s;
+  }
+  .check-item:hover { background: var(--cream); }
+  .check-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+  .check-text strong {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--navy);
+    display: block;
+    margin-bottom: 5px;
+  }
+  .check-text p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── PLACEMENT RELEVANCE ─────────────────────────── */
+  .relevance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .relevance-card {
+    background: var(--white);
+    padding: 32px 28px;
+    transition: background 0.3s;
+  }
+  .relevance-card:hover { background: var(--cream); }
+  .rel-firm {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+  .rel-firm span {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+  .rel-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .rel-body ul {
+    list-style: none;
+    margin-top: 8px;
+  }
+  .rel-body ul li {
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .rel-body ul li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  /* ── COMPARISON ──────────────────────────────────── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .compare-table thead tr {
+    background: var(--navy);
+  }
+  .compare-table th {
+    padding: 18px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: left;
+    color: rgba(245,240,232,0.6);
+  }
+  .compare-table th.highlight-col {
+    color: var(--gold-light);
+    background: rgba(184,149,58,0.12);
+  }
+  .compare-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  .compare-table td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .compare-table td.highlight-col {
+    background: rgba(184,149,58,0.05);
+    color: var(--navy);
+    font-weight: 400;
+  }
+  .compare-table tr:hover td { background: var(--cream); }
+  .compare-table tr:hover td.highlight-col { background: rgba(184,149,58,0.1); }
+  .tick { color: #1a7a4a; font-weight: 500; }
+  .cross { color: #8b1a1a; }
+  .neutral { color: var(--text-muted); }
+
+  /* ── FOOTER ──────────────────────────────────────── */
+  footer {
+    background: var(--navy);
+    padding: 48px 32px;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--paper);
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .footer-logo em {
+    font-style: italic;
+    color: var(--gold-light);
+    font-weight: 300;
+  }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: rgba(245,240,232,0.3);
+    text-transform: uppercase;
+    line-height: 2;
+  }
+  .footer-rule {
+    width: 64px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+    margin: 24px auto;
+  }
+
+  /* ── ANIMATIONS ──────────────────────────────────── */
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes lineDown {
+    0%,100% { opacity: 0.3; transform: scaleY(0.8); }
+    50%      { opacity: 0.8; transform: scaleY(1); }
+  }
+
+  /* ── PRINT-READY BADGE ───────────────────────────── */
+  .proposal-meta-bar {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .meta-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .meta-item strong {
+    color: var(--navy);
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="topbar-name">The Engagement</div>
+  <div class="topbar-meta">Consulting Cohort · BITS Pilani MBA</div>
+</div>
+
+<!-- META BAR -->
+<div class="proposal-meta-bar">
+  <div class="meta-item">Submitted by: <strong>Anand Vardhan Shukla</strong></div>
+  <div class="meta-item">Program: <strong>MBA Business Analytics</strong></div>
+  <div class="meta-item">Institute: <strong>BITS Pilani</strong></div>
+  <div class="meta-item">Event: <strong>Analytics Premier League (APL)</strong></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">Consulting Cohort · Inaugural Event Proposal</div>
+  <h1 class="hero-title">
+    The<br>Engagement
+    <em>A Live Consulting Mandate</em>
+  </h1>
+  <p class="hero-descriptor">
+    Not a simulation. Not a game. A structured, high-stakes consulting engagement — exactly how real firms work, built for placement-ready MBA students.
+  </p>
+  <div class="hero-chips">
+    <div class="chip">90 Minutes</div>
+    <div class="chip">Teams of 1-3</div>
+    <div class="chip">Zero Props Required</div>
+    <div class="chip">Big4 · MBB Aligned</div>
+  </div>
+  <!-- <div class="hero-scroll">Scroll to Brief</div> -->
+</div>
+
+<!-- MANIFESTO -->
+<div class="manifesto">
+  <div class="manifesto-inner">
+    <p class="manifesto-quote reveal">
+      "In a real consulting engagement, you don't just solve the problem.<br>
+      You <strong>earn the room</strong>, <strong>reframe the question</strong>, <strong>navigate the data</strong>,<br>
+      and <strong>defend your position</strong> — all in the same meeting."
+    </p>
+    <div class="manifesto-attr reveal">The Engagement — Design Philosophy</div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="section">
+  <div class="section-label reveal">01 — Event Brief</div>
+  <h2 class="section-headline reveal">What is <em>The Engagement?</em></h2>
+
+  <div class="premise-grid reveal">
+    <div class="premise-cell">
+      <div class="premise-cell-label">Format</div>
+      <div class="premise-cell-value">Live Consulting Mandate
+        <small>A structured 5-phase engagement modeled on an actual client project lifecycle</small>
+      </div>
+    </div>
+    <div class="premise-cell">
+      <div class="premise-cell-label">Duration</div>
+      <div class="premise-cell-value">90 Minutes
+        <small>Tight, real, pressured — mirroring a first-day client engagement kickoff</small>
+      </div>
+    </div>
+    <div class="premise-cell">
+      <div class="premise-cell-label">Participants</div>
+      <div class="premise-cell-value">MBA Cohort
+        <small>Teams of  Mixed background encouraged for richer team dynamics</small>
+      </div>
+    </div>
+    <div class="premise-cell">
+      <div class="premise-cell-label">Core Concept</div>
+      <div class="premise-cell-value">The Brief Evolves
+        <small>The client situation changes mid-event — because it always does in real engagements</small>
+      </div>
+    </div>
+  </div>
+
+  <p class="scan-takeaway reveal">Most case competitions simulate solving. <em>The Engagement</em> simulates the full consulting arc — from ambiguous brief to boardroom defense.</p>
+
+  <p class="reveal" style="font-size:14px;color:var(--text-muted);line-height:1.8;max-width:780px;">
+    Each team is a consulting project team. The judges are the client. The situation shifts mid-engagement. <strong>No tokens, no props, no theatrical gimmicks</strong> — the intensity comes entirely from intellectual pressure. The same pressure you face at McKinsey, Bain, and every Big4 strategy practice.
+  </p>
+
+  <div class="callout reveal" data-label="Core Philosophy">
+    <p>This event is built on one principle: <strong>placement readiness is not taught in lectures — it is built through deliberate rehearsal under real conditions.</strong> Every phase of The Engagement maps directly to a moment that will occur in your consulting interview or your first client meeting.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- THE UNIQUE TWIST -->
+<div class="twist-section">
+  <div class="twist-inner">
+    <div class="section-label reveal">02 — The Differentiator</div>
+    <h2 class="section-headline reveal">Three Mechanisms<br><em>No Other Event Has</em></h2>
+    <p class="scan-takeaway reveal">Each mechanism is a real consulting tool — not a game element. They are what make this a rehearsal, not a competition.</p>
+
+    <div class="twist-grid reveal">
+      <div class="twist-card">
+        <div class="twist-num">01</div>
+        <div class="twist-card-title">The Assumption Log</div>
+        <div class="twist-card-body">
+          Every team maintains a live <strong>Assumption Register</strong> — a running list of every assumption their analysis depends on. This is a real McKinsey tool. At any point, a judge can challenge a line item. <strong>The team that holds its assumptions most rigorously wins the room.</strong> No other B-school event scores this skill directly.
+        </div>
+      </div>
+      <div class="twist-card">
+        <div class="twist-num">02</div>
+        <div class="twist-card-title">The Mid-Brief Pivot</div>
+        <div class="twist-card-body">
+          At the 60-minute mark, all teams receive a <strong>Client Update</strong> — a one-paragraph shift in the situation (budget cut, regulatory change, competitor move). Teams must decide: <strong>pivot strategy, or defend their original position with new rationale?</strong> It cannot be prepared for. It must be navigated live.
+        </div>
+      </div>
+      <div class="twist-card">
+        <div class="twist-num">03</div>
+        <div class="twist-card-title">The Analytics Obligation</div>
+        <div class="twist-card-body">
+          A <strong>structured mini-dataset</strong> (single printout or shared Google Sheet) is embedded in the case. Teams must extract at least <strong>two quantitative insights</strong> that directly support their recommendation. <strong>Recommendations without data are automatically down-scored.</strong> Analytics and strategy are treated as one discipline — not two.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASES -->
+<div class="section">
+  <div class="section-label reveal">03 — Event Architecture</div>
+  <h2 class="section-headline reveal">Five Phases.<br><em>One Engagement.</em></h2>
+  <p class="scan-takeaway reveal">Each phase is a distinct consulting skill test. Together they replicate the complete lifecycle of a real client engagement — in 90 minutes.</p>
+
+  <div class="phases-wrapper reveal">
+
+    <!-- PHASE 1 -->
+    <div class="phase-block">
+      <div class="phase-meta">
+        <div class="phase-time">15</div>
+        <div class="phase-unit">min</div>
+      </div>
+      <div class="phase-card" onclick="togglePhase(this)">
+        <div class="phase-number">Phase 01 · Kickoff</div>
+        <h3 class="phase-title">The Brief Arrives</h3>
+        <div class="phase-subtitle">Problem Framing · Scoping · Clarifying Questions</div>
+        <p class="phase-summary">Teams receive a 2-page client brief — deliberately incomplete. The first task is not to solve, but to <strong>scope correctly</strong>, identify the real question, and build an initial hypothesis tree.</p>
+        <div class="phase-toggle">Expand Phase</div>
+        <div class="phase-body">
+          <ul>
+            <li><strong>The brief is incomplete by design.</strong> Real clients never give you the full picture upfront.</li>
+            <li>Teams submit <strong>3 written clarifying questions</strong> — judges (as the client) answer 2 verbally.</li>
+            <li>Deliverables: one-sentence problem statement · 3-level issue tree · stated initial hypothesis.</li>
+            <li><strong>Scoring:</strong> Precision of scoping, quality of issue tree, relevance of clarifying questions.</li>
+          </ul>
+          <div class="highlight-box">
+            <div class="highlight-box-label">Interview parallel</div>
+            <p>Every consulting interview begins with: <strong>"What else would you want to know?"</strong> and <strong>"What's your initial hypothesis?"</strong> This phase rehearses exactly that — under pressure, on the clock.</p>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill">MECE Thinking</span>
+            <span class="skill-pill">Hypothesis-Led</span>
+            <span class="skill-pill">Issue Trees</span>
+            <span class="skill-pill">Active Scoping</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-block">
+      <div class="phase-meta">
+        <div class="phase-time">20</div>
+        <div class="phase-unit">min</div>
+      </div>
+      <div class="phase-card" onclick="togglePhase(this)">
+        <div class="phase-number">Phase 02 · Deep Dive</div>
+        <h3 class="phase-title">The Analytics Layer</h3>
+        <div class="phase-subtitle">Quantitative Analysis · Data Interpretation · Insight Extraction</div>
+        <p class="phase-summary">Teams receive a structured dataset — one sheet, 20–30 rows, 4–6 columns. Their task: extract <strong>two or more data-driven insights</strong> that confirm or challenge their initial hypothesis.</p>
+        <div class="phase-toggle">Expand Phase</div>
+        <div class="phase-body">
+          <ul>
+            <li>Dataset is simple enough for <strong>mental math and pattern recognition</strong> — no software needed.</li>
+            <li>Teams must state explicitly: <strong>"Hypothesis was X. Data shows Y. Therefore we adjust/confirm because Z."</strong></li>
+            <li>Each team also produces a <strong>back-of-envelope market sizing estimate</strong> — a consulting interview staple.</li>
+            <li><strong>Scoring:</strong> Accuracy of interpretation, quality of insight derivation, logical consistency with hypothesis update.</li>
+          </ul>
+          <div class="highlight-box">
+            <div class="highlight-box-label">The Assumption Log activates here</div>
+            <p>Every number gets logged. <strong>If a team assumes 15% margin, they write it down.</strong> If the judge later asks "why 15%?", they must defend it. Teams that log rigorously look like senior consultants. Teams that don't get caught.</p>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill">Data Interpretation</span>
+            <span class="skill-pill">Guesstimation</span>
+            <span class="skill-pill">Assumption Rigor</span>
+            <span class="skill-pill">Analytics → Insight</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 — THE PIVOT -->
+    <div class="phase-block">
+      <div class="phase-meta">
+        <div class="phase-time">10</div>
+        <div class="phase-unit">min</div>
+      </div>
+      <div class="phase-card" onclick="togglePhase(this)" style="background:linear-gradient(135deg,#faf8f4 0%,#fdf6e3 100%);border-color:rgba(184,149,58,0.4);">
+        <div class="phase-number" style="color:var(--red);">Phase 03 · The Pivot · LIVE EVENT MOMENT</div>
+        <h3 class="phase-title" style="color:var(--red);">Client Update</h3>
+        <div class="phase-subtitle">Adaptive Thinking · Structured Response · Real-Time Judgment</div>
+        <p class="phase-summary">At the 60-minute mark, all teams simultaneously open a sealed envelope. Inside: one paragraph that changes a material fact about the case. Teams have 10 minutes to decide — and justify — their response.</p>
+        <div class="phase-toggle">Expand Phase</div>
+        <div class="phase-body">
+          <ul>
+            <li><strong>Example updates:</strong> "CFO announces a 20% budget cut." / "New regulation makes Option B non-viable." / "Competitor enters with aggressive pricing."</li>
+            <li>Teams produce a <strong>one-paragraph written response</strong>: pivot or hold position — with explicit reasoning.</li>
+            <li>The right answer is not pivoting. It is having a <strong>rigorous, defensible justification</strong> either way.</li>
+            <li><strong>Pivot without logic = penalty. Hold without acknowledging the update = penalty.</strong> The reward goes to structured adaptive thinking.</li>
+          </ul>
+          <div class="highlight-box">
+            <div class="highlight-box-label">Signature Moment</div>
+            <p><strong>This is the moment that separates good thinkers from great consultants.</strong> No other consulting event scores mid-engagement adaptability as a distinct criterion. Judges and the audience watch teams visibly reckon with the update in real time — it is the most compelling 10 minutes of the event.</p>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill">Adaptive Reasoning</span>
+            <span class="skill-pill">Structured Judgment</span>
+            <span class="skill-pill">Decision Confidence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase-block">
+      <div class="phase-meta">
+        <div class="phase-time">10</div>
+        <div class="phase-unit">min</div>
+      </div>
+      <div class="phase-card" onclick="togglePhase(this)">
+        <div class="phase-number">Phase 04 · Solution Build</div>
+        <h3 class="phase-title">Recommendations & Trade-offs</h3>
+        <div class="phase-subtitle">Solution Design · Constraint Navigation · Stakeholder Logic</div>
+        <p class="phase-summary">Teams build their final recommendation. But the case explicitly introduces three competing constraints — budget, timeline, and stakeholder conflict. Recommendations must address all three, with explicit trade-off logic.</p>
+        <div class="phase-toggle">Expand Phase</div>
+        <div class="phase-body">
+          <ul>
+            <li>Each team produces: <strong>Top 2 recommendations</strong> with supporting logic, a <strong>Trade-off Matrix</strong> (a simple 2x2 or 3-column table), and one <strong>implementation risk</strong> acknowledged explicitly.</li>
+            <li>The constraint structure forces teams to think like consultants — not academics. The best solution under infinite resources is irrelevant. The best solution under real constraints is the job.</li>
+            <li>Teams also define their <strong>success metric</strong> — how will the client know in 90 days if this worked? This tests outcome-orientation, not just analysis.</li>
+            <li><strong>Scoring:</strong> Specificity of recommendations, quality of trade-off reasoning, acknowledgement of implementation risk, clarity of success metric.</li>
+          </ul>
+          <div class="highlight-box">
+            <div class="highlight-box-label">Placement alignment: BCG, Deloitte, KPMG interviews</div>
+            <p>Every structured interview at a major firm will ask: <strong>"What are the trade-offs of your recommendation?"</strong> and <strong>"What could go wrong?"</strong> This phase trains the habit of leading with structured trade-off logic — a mark of a prepared, senior-ready candidate.</p>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill">Trade-off Matrices</span>
+            <span class="skill-pill">Constraint-Aware Design</span>
+            <span class="skill-pill">Risk Articulation</span>
+            <span class="skill-pill">Success Metrics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase-block">
+      <div class="phase-meta">
+        <div class="phase-time">10</div>
+        <div class="phase-unit">min</div>
+      </div>
+      <div class="phase-card" onclick="togglePhase(this)">
+        <div class="phase-number">Phase 05 · Boardroom</div>
+        <h3 class="phase-title">The Partner Review</h3>
+        <div class="phase-subtitle">Executive Communication · Pyramid Principle · Live Defense</div>
+        <p class="phase-summary">Each team presents to the full judge panel using the Pyramid Principle — answer first, arguments second. Then judges enter Partner-style challenge mode: no softball questions, no courtesy. Pure pressure.</p>
+        <div class="phase-toggle">Expand Phase</div>
+        <div class="phase-body">
+          <ul>
+            <li><strong>Presentation format:</strong> 4 minutes. Verbal only + one physical one-pager (A4). No slide deck. Senior partners read the one-pager, not the deck.</li>
+            <li><strong>The structure required:</strong> (1) Lead recommendation in one sentence. (2) Three supporting arguments, each backed by data or logic from the engagement. (3) One proactive risk acknowledgment. (4) A crisp implementation first step.</li>
+            <li><strong>Partner Challenge (6 minutes per team):</strong> Judges challenge assumptions from the Assumption Log. They probe trade-off choices. They introduce one new fact ("Our board has concerns about X") and ask teams to respond in 60 seconds.</li>
+            <li>The panel scores on: structure, data usage, composure under pressure, quality of the pivot response from Phase 03, and overall persuasiveness.</li>
+            <li>After all teams present: <strong>Judges announce which team "won the engagement" and explain why</strong> — a 5-minute debrief that is arguably the most educational part of the event.</li>
+          </ul>
+          <div class="highlight-box">
+            <div class="highlight-box-label">The Partner Challenge — modeled on real practice</div>
+            <p>At McKinsey, BCG, and Bain, internal presentations are called <strong>"the murder board"</strong> — senior partners challenge every assumption. At Deloitte and Accenture Strategy, Partner-level client presentations involve live pushback within the room. <strong>This phase is not a simulation. It is a rehearsal.</strong></p>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill">Pyramid Principle</span>
+            <span class="skill-pill">Executive Presence</span>
+            <span class="skill-pill">Assumption Defense</span>
+            <span class="skill-pill">One-Pager Synthesis</span>
+            <span class="skill-pill">Partner Pressure</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SCORING -->
+<div class="section">
+  <div class="section-label reveal">04 — Evaluation</div>
+  <h2 class="section-headline reveal">Scoring <em>Breakdown</em></h2>
+
+  <div class="reveal" id="scoring-grid">
+    <div class="score-row">
+      <div class="score-phase-name">Phase 01 — The Brief Arrives <span>Problem Framing · Issue Tree · Hypothesis</span></div>
+      <div class="score-bar-track"><div class="score-bar-fill" data-w="57"></div></div>
+      <div class="score-pts">20 <span>pts</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-phase-name">Phase 02 — The Analytics Layer <span>Data Insight · Guesstimate · Assumption Log</span></div>
+      <div class="score-bar-track"><div class="score-bar-fill" data-w="57"></div></div>
+      <div class="score-pts">20 <span>pts</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-phase-name">Phase 03 — Client Update (The Pivot) <span>Adaptive Reasoning · Structured Response</span></div>
+      <div class="score-bar-track"><div class="score-bar-fill" data-w="43"></div></div>
+      <div class="score-pts">15 <span>pts</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-phase-name">Phase 04 — Recommendations & Trade-offs <span>Solution Quality · Constraint Awareness · Risk</span></div>
+      <div class="score-bar-track"><div class="score-bar-fill" data-w="71"></div></div>
+      <div class="score-pts">25 <span>pts</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-phase-name">Phase 05 — The Partner Review <span>Pitch · Defense · Composure · One-Pager</span></div>
+      <div class="score-bar-track"><div class="score-bar-fill" data-w="100"></div></div>
+      <div class="score-pts">35 <span>pts</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-phase-name" style="color:var(--teal);">Assumption Log Quality <span>Consistency · Precision · Defensibility throughout</span></div>
+      <div class="score-bar-track"><div class="score-bar-fill" data-w="29" style="background:var(--teal)"></div></div>
+      <div class="score-pts" style="color:var(--teal);">+10 <span>bonus</span></div>
+    </div>
+  </div>
+
+  <div class="total-box reveal">
+    <div>
+      <div class="total-label">Maximum Total Score</div>
+      <div class="total-score">125 <span>Points</span></div>
+    </div>
+    <div class="total-note">
+      No partial credit for hand-waving. Every rubric line requires specific, demonstrable evidence from the team's work product — not impressions.
+      Judges receive the scoring rubric 30 minutes before the event begins.
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ORGANISER CHECKLIST -->
+<div class="section">
+  <div class="section-label reveal">05 — Before the Event</div>
+  <h2 class="section-headline reveal">Organiser<br><em>Checklist</em></h2>
+
+  <div class="checklist reveal">
+    <div class="check-item">
+      <div class="check-icon">📄</div>
+      <div class="check-text">
+        <strong>Client Brief (2 pages)</strong>
+        <p>A fictional but realistic company scenario with a strategic problem, partial financials, and deliberate ambiguities. Print one copy per team. Suggested domain: D2C brand, logistics startup, or retail chain.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon">📊</div>
+      <div class="check-text">
+        <strong>Analytics Dataset (1 sheet)</strong>
+        <p>A simple structured dataset — 20–30 rows, 4–6 columns. Revenue by region, customer cohort data, or operational metrics. No software required. Print or share via Google Sheets QR code.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon">✉️</div>
+      <div class="check-text">
+        <strong>Sealed Pivot Envelopes</strong>
+        <p>One sealed envelope per team containing the Client Update for Phase 03. Can vary slightly across teams. Distribute face-down at event start; all teams open simultaneously at the 60-minute mark.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon">📋</div>
+      <div class="check-text">
+        <strong>Assumption Log Sheet</strong>
+        <p>One blank A4 per team with a 3-column table: Assumption / Basis / Confidence Level. Teams fill this live throughout all phases. Judges collect and score these at the end.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon">📝</div>
+      <div class="check-text">
+        <strong>One-Pager Template</strong>
+        <p>A blank A4 with labeled sections: Recommendation · Key Arguments · Trade-offs · First 90 Days · Risk. Distributed at Phase 04. Keeps boardroom output consistent and professional across all teams.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon">🏛️</div>
+      <div class="check-text">
+        <strong>Judge Briefing Pack (30 min prior)</strong>
+        <p>Judges receive the full case brief, scoring rubric, pivot update text, and a list of 6–8 Partner-style challenge questions for Phase 05. They play the role of senior client — not examiner.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon">⏱️</div>
+      <div class="check-text">
+        <strong>Visible Countdown Timer</strong>
+        <p>A large timer visible to all teams at all times. Use a projected laptop timer or a phone on a stand. Call 5-minute warnings at the end of each phase. Time pressure is structural — not accidental.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon">🎯</div>
+      <div class="check-text">
+        <strong>Post-Event Debrief Card</strong>
+        <p>A one-page summary of what the model answer looked like — shared after results. Turns the competition into a learning artefact every participant takes forward.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE SUMMARY -->
+  <div class="reveal" style="margin-top:48px;background:var(--navy);padding:44px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--gold-light);text-transform:uppercase;margin-bottom:28px;">90-Minute Master Timeline</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px;background:rgba(184,149,58,0.15);">
+      <div style="background:rgba(13,27,42,0.8);padding:20px 24px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold-light);line-height:1;">0:00</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(245,240,232,0.45);text-transform:uppercase;margin-top:4px;">Brief Distributed</div>
+        <div style="font-size:12px;color:rgba(245,240,232,0.65);margin-top:8px;">Teams read brief, form hypothesis, submit clarifying questions</div>
+      </div>
+      <div style="background:rgba(13,27,42,0.8);padding:20px 24px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold-light);line-height:1;">0:15</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(245,240,232,0.45);text-transform:uppercase;margin-top:4px;">Analytics Dataset</div>
+        <div style="font-size:12px;color:rgba(245,240,232,0.65);margin-top:8px;">Data sheet released. Insight extraction + guesstimate</div>
+      </div>
+      <div style="background:rgba(13,27,42,0.8);padding:20px 24px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold-light);line-height:1;">0:35</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(245,240,232,0.45);text-transform:uppercase;margin-top:4px;">Solution Build</div>
+        <div style="font-size:12px;color:rgba(245,240,232,0.65);margin-top:8px;">Recommendations, trade-off matrix, risk, success metric</div>
+      </div>
+      <div style="background:rgba(139,26,26,0.25);border:1px solid rgba(139,26,26,0.4);padding:20px 24px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#e57373;line-height:1;">60:00</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(229,115,115,0.7);text-transform:uppercase;margin-top:4px;">★ The Pivot</div>
+        <div style="font-size:12px;color:rgba(245,240,232,0.65);margin-top:8px;">Envelopes opened. 10 min to respond in writing</div>
+      </div>
+      <div style="background:rgba(13,27,42,0.8);padding:20px 24px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold-light);line-height:1;">70:00</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(245,240,232,0.45);text-transform:uppercase;margin-top:4px;">Boardroom Prep</div>
+        <div style="font-size:12px;color:rgba(245,240,232,0.65);margin-top:8px;">One-pager written. 3-minute structured pitch</div>
+      </div>
+      <div style="background:rgba(13,27,42,0.8);padding:20px 24px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold-light);line-height:1;">80:00</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(245,240,232,0.45);text-transform:uppercase;margin-top:4px;">Partner Review</div>
+        <div style="font-size:12px;color:rgba(245,240,232,0.65);margin-top:8px;">Presentations · Partner Challenge · Scoring · Debrief</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">The <em>Engagement</em></div>
+  <div class="footer-rule"></div>
+  <div class="footer-meta">
+    Consulting Cohort · MBA Business Analytics · BITS Pilani<br>
+    Inaugural Event Proposal · Analytics Premier League (APL)<br>
+    Prepared for Faculty & Senior Jury Evaluation
+  </div>
+</footer>
+
+<script>
+  // Topbar
+  const topbar = document.getElementById('topbar');
+  window.addEventListener('scroll', () => {
+    topbar.classList.toggle('visible', window.scrollY > 80);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const ro = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        ro.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => ro.observe(el));
+
+  // Phase toggle
+  function togglePhase(el) {
+    el.classList.toggle('open');
+  }
+
+  // Score bars
+  const barObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.score-bar-fill').forEach(bar => {
+          setTimeout(() => bar.style.width = bar.dataset.w + '%', 300);
+        });
+        barObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const sg = document.getElementById('scoring-grid');
+  if (sg) {
+    sg.querySelectorAll('.score-bar-fill').forEach(b => b.style.width = '0%');
+    barObs.observe(sg);
+  }
+</script>
+</body>
+</html>
